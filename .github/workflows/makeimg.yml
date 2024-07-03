@@ -23,10 +23,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Conform repo name
+        env:
+          REPONAME: '${{ github.repository }}'
+        run: |
+          echo "REPO_LC=${REPONAME,,}" >> ${GITHUB_ENV}
       - name: Build and publish image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ${{ matrix.dockerfile }}
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ matrix.tag }}
+          tags: ghcr.io/${{ env.REPO_LC }}:${{ matrix.tag }}
