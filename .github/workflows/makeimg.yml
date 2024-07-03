@@ -1,0 +1,32 @@
+name: Build the Docker images
+
+on:
+  push
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: ./Linux_x86-64.dockerfile
+            tag: linux_x86-64_latest
+          - dockerfile: ./Windows_x86.dockerfile
+            tag: windows_x86_latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: GHCR login
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and publish image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: ghcr.io/${{ github.repository }}:${{ matrix.tag }}
