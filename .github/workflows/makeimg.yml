@@ -14,6 +14,8 @@ jobs:
             tag: linux_x86-64_latest
           - dockerfile: ./Windows_x86.dockerfile
             tag: windows_x86_latest
+          - dockerfile: ./Windows_x86-64.dockerfile
+            tag: windows_x86-64_latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
