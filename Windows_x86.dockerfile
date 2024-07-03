@@ -37,6 +37,6 @@ ENV CXXFLAGS="-static -D_GNU_SOURCE -L/usr/local/lib/ -I/usr/local/include/ "
 ENV CPPFLAGS="-static -D_GNU_SOURCE -L/usr/local/lib/ -I/usr/local/include/ "
 ENV PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
 
-COPY . /work
+RUN mkdir /work
 WORKDIR /work
 CMD ["bash"]
